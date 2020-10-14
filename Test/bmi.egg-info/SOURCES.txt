@@ -1,0 +1,7 @@
+setup.py
+bmi/BMIPython.py
+bmi/__init__.py
+bmi.egg-info/PKG-INFO
+bmi.egg-info/SOURCES.txt
+bmi.egg-info/dependency_links.txt
+bmi.egg-info/top_level.txt
