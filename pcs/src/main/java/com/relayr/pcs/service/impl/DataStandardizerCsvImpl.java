@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.relayr.pcs.bean.ProductBean;
+import com.relayr.pcs.constants.Constants;
 import com.relayr.pcs.constants.ErrorMessages;
 import com.relayr.pcs.exception.CustomException;
 import com.relayr.pcs.service.DataStandardizer;
@@ -41,13 +42,12 @@ public class DataStandardizerCsvImpl implements DataStandardizer {
 
 	private void validateCsv(String[] colNames) throws CustomException {
 		try {
-		if (colNames[0].equals("brand_name") && colNames[1].equals("category") && colNames[2].equals("model_number")
-				&& colNames[3].equals("name") && colNames[4].equals("price")
-				&& colNames[5].equals("website")) {
-			throw new CustomException(ErrorMessages.APP04.code(), ErrorMessages.APP04.message());
-		}
-		}
-		catch (Exception e) {
+			if (colNames[0].equals(Constants.BRAND_NAME) && colNames[1].equals(Constants.CATEGORY)
+					&& colNames[2].equals(Constants.MODEL_NUMBER) && colNames[3].equals(Constants.NAME)
+					&& colNames[4].equals(Constants.PRICE) && colNames[5].equals(Constants.WEBSITE)) {
+				throw new CustomException(ErrorMessages.APP04.code(), ErrorMessages.APP04.message());
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new CustomException(ErrorMessages.APP04.code(), ErrorMessages.APP04.message());
 		}

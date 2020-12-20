@@ -6,7 +6,9 @@ public enum ErrorMessages {
 	APP02("APP02","Unable to Fetch data from database"),
 	APP03("APP03","File is empty"),
 	APP04("APP04","This CSV file is not Valid"),
-	APP05("APP05","Unble TO fetch data from Given Endpoint");
+	APP05("APP05","Unable TO fetch data from Given Endpoint"),
+	APP06("APP06","Json is not Valid"),
+	APP07("APP07","This File Type is not yet supported");
 	String errorCode;
 	
 	String errorMessage;

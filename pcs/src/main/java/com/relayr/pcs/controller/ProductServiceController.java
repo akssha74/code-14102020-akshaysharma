@@ -74,7 +74,7 @@ public class ProductServiceController {
 		if (!CommonUtils.isNull(file) && !file.isEmpty()) {
 			dataIngestor = processor.getIngestor(file.getOriginalFilename());
 			if (CommonUtils.isNull(dataIngestor))
-				throw new CustomException(ErrorMessages.APP01.code(), ErrorMessages.APP01.message());
+				throw new CustomException(ErrorMessages.APP07.code(), ErrorMessages.APP07.message());
 			try {
 				beanList = dataIngestor.loadDataToDB(file.getBytes());
 			} catch (IOException e) {

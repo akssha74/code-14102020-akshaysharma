@@ -10,6 +10,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.relayr.pcs.bean.ProductBean;
+import com.relayr.pcs.constants.ErrorMessages;
+import com.relayr.pcs.exception.CustomException;
 import com.relayr.pcs.service.DataStandardizer;
 
 @Service
@@ -17,7 +19,7 @@ import com.relayr.pcs.service.DataStandardizer;
 public class DataStandardizerJsonImpl implements DataStandardizer{
 
 	@Override
-	public List<ProductBean> loadDataToDB(byte[] bytes) {
+	public List<ProductBean> loadDataToDB(byte[] bytes) throws CustomException {
 		String completeData = new String(bytes);
 		ObjectMapper mapper = new ObjectMapper();
 		try {
@@ -25,10 +27,11 @@ public class DataStandardizerJsonImpl implements DataStandardizer{
 			return beanList;
 		} catch (JsonMappingException e) {
 			e.printStackTrace();
+			throw new CustomException(ErrorMessages.APP06.code(),ErrorMessages.APP06.message());
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
+			throw new CustomException(ErrorMessages.APP06.code(),ErrorMessages.APP06.message());
 		}
-		return null;
 	}
 
 }

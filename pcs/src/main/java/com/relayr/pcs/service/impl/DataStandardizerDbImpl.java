@@ -14,6 +14,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import com.relayr.pcs.bean.ProductBean;
+import com.relayr.pcs.constants.Constants;
 import com.relayr.pcs.constants.ErrorMessages;
 import com.relayr.pcs.exception.CustomException;
 import com.relayr.pcs.service.DataStandardizer;
@@ -38,17 +39,17 @@ public class DataStandardizerDbImpl implements DataStandardizer {
 			Connection con = DriverManager.getConnection(jdbcString);
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt
-					.executeQuery("SELECT " + env.getProperty("query.cols") + " FROM " + schema + "." + table);
+					.executeQuery(Constants.SELECT + env.getProperty(Constants.QUERY_COLS) + Constants.FROM + schema + "." + table);
 			while (rs.next()) {
 				ProductBean bean = new ProductBean();
-				bean.setBrandName(rs.getString("brand_name"));
-				bean.setCategory(rs.getString("category"));
-				bean.setHighPrice(Double.parseDouble(rs.getString("price")));
-				bean.setLowPrice(Double.parseDouble(rs.getString("price")));
-				bean.setPrice(Double.parseDouble(rs.getString("price")));
-				bean.setModelNumber(rs.getString("model_number"));
-				bean.setName(rs.getString("name"));
-				bean.setWebsite(rs.getString("website"));
+				bean.setBrandName(rs.getString(Constants.BRAND_NAME));
+				bean.setCategory(rs.getString(Constants.CATEGORY));
+				bean.setHighPrice(Double.parseDouble(rs.getString(Constants.PRICE)));
+				bean.setLowPrice(Double.parseDouble(rs.getString(Constants.PRICE)));
+				bean.setPrice(Double.parseDouble(rs.getString(Constants.PRICE)));
+				bean.setModelNumber(rs.getString(Constants.MODEL_NUMBER));
+				bean.setName(rs.getString(Constants.NAME));
+				bean.setWebsite(rs.getString(Constants.WEBSITE));
 				beanList.add(bean);
 			}
 			return beanList;
