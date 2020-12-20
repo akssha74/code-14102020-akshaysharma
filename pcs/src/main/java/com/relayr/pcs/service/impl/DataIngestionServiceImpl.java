@@ -23,17 +23,30 @@ public class DataIngestionServiceImpl implements DataIngestionService{
 	@Autowired
 	@Qualifier("DbService")
 	DataStandardizer dataIngestionDb;
+	
+	@Autowired
+	@Qualifier("HttpService")
+	DataStandardizer dataIngestionHttp;
 
 	public DataStandardizer getIngestor(String fileName) {
 		String[] fileFrags = null;
 		String extension = null;
-		if(!CommonUtils.isNull(fileName)) {
+		if(!CommonUtils.isNull(fileName) && fileName.toLowerCase().trim().contains(Constants.JDBC)) {
 			fileFrags = fileName.split(":");
 			extension = fileFrags[0];
 			if (!CommonUtils.isNull(extension) && extension.toLowerCase().trim().equals(Constants.JDBC))
 				return dataIngestionDb;		
 		}
-		if (!CommonUtils.isNull(fileName)) {
+		else if(!CommonUtils.isNull(fileName) && fileName.toLowerCase().trim().contains(Constants.HTTP)) {
+			fileFrags = fileName.split(":");
+			extension = fileFrags[0];
+			if (!CommonUtils.isNull(extension) && extension.toLowerCase().trim().equals(Constants.HTTP))
+				return dataIngestionHttp;			
+		}
+		else if (!CommonUtils.isNull(fileName) && fileName.equals(Constants.JSON_FORMAT)) {
+			return dataIngestionJson;
+		}
+		else if (!CommonUtils.isNull(fileName)) {
 			fileFrags = fileName.split("\\.");
 			extension = fileFrags[fileFrags.length - 1];
 			if (!CommonUtils.isNull(extension) && extension.toLowerCase().trim().equals(Constants.CSV_FORMAT))
@@ -41,8 +54,9 @@ public class DataIngestionServiceImpl implements DataIngestionService{
 			else if (!CommonUtils.isNull(extension) && extension.toLowerCase().trim().equals(Constants.JSON_FORMAT))
 				return dataIngestionJson;
 			}
+		
 		else
-			return dataIngestionJson;
+			return null;
 		return null;
 	}
 }

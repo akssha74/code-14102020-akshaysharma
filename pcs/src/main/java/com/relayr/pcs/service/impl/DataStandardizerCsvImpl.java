@@ -7,18 +7,22 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.relayr.pcs.bean.ProductBean;
+import com.relayr.pcs.constants.ErrorMessages;
+import com.relayr.pcs.exception.CustomException;
 import com.relayr.pcs.service.DataStandardizer;
 
 @Service
 @Qualifier("CsvService")
-public class DataStandardizerCsvImpl implements DataStandardizer{
+public class DataStandardizerCsvImpl implements DataStandardizer {
 
 	@Override
-	public List<ProductBean> loadDataToDB(byte[] bytes) {
-        String completeData = new String(bytes);
-        String[] rows = completeData.split("\n");
-        List<ProductBean> beanList = new ArrayList<ProductBean>();
-		for(int index = 1;index < rows.length;index++) {
+	public List<ProductBean> loadDataToDB(byte[] bytes) throws CustomException {
+		String completeData = new String(bytes);
+		String[] rows = completeData.split("\n");
+		List<ProductBean> beanList = new ArrayList<ProductBean>();
+		String[] colNames = rows[0].split(",");
+		validateCsv(colNames);
+		for (int index = 1; index < rows.length; index++) {
 			String[] cols = rows[index].split(",");
 			ProductBean bean = new ProductBean();
 			bean.setBrandName(cols[0]);
@@ -32,7 +36,21 @@ public class DataStandardizerCsvImpl implements DataStandardizer{
 			beanList.add(bean);
 		}
 		return beanList;
-        
+
+	}
+
+	private void validateCsv(String[] colNames) throws CustomException {
+		try {
+		if (colNames[0].equals("brand_name") && colNames[1].equals("category") && colNames[2].equals("model_number")
+				&& colNames[3].equals("name") && colNames[4].equals("price")
+				&& colNames[5].equals("website")) {
+			throw new CustomException(ErrorMessages.APP04.code(), ErrorMessages.APP04.message());
+		}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			throw new CustomException(ErrorMessages.APP04.code(), ErrorMessages.APP04.message());
+		}
 	}
 
 }

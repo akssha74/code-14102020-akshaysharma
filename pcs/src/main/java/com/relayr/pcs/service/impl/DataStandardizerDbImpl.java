@@ -57,7 +57,7 @@ public class DataStandardizerDbImpl implements DataStandardizer {
 			throw new CustomException(ErrorMessages.APP01.code(), ErrorMessages.APP01.message());
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new CustomException(ErrorMessages.APP01.code(), ErrorMessages.APP01.message());
+			throw new CustomException(ErrorMessages.APP02.code(), ErrorMessages.APP02.message());
 		}
 	}
 }
