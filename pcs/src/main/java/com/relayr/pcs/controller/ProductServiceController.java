@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.relayr.pcs.DataIngestion;
-import com.relayr.pcs.DataIngestionCSV;
-import com.relayr.pcs.DataIngestionJson;
 import com.relayr.pcs.bean.ProductBean;
+import com.relayr.pcs.exception.CustomException;
+import com.relayr.pcs.service.DataIngestionService;
+import com.relayr.pcs.service.DataStandardizer;
 import com.relayr.pcs.service.ProductComparisonService;
 import com.relayr.pcs.util.CommonUtils;
 
@@ -33,9 +33,9 @@ public class ProductServiceController {
 	ProductComparisonService productService;
 
 	@Autowired
-	StringToProductBeanConverter converter;
+	DataIngestionService processor;
 
-	DataIngestion dataIngestor;
+	DataStandardizer dataIngestor;
 
 	@GetMapping("find/products")
 	public ResponseEntity<List<ProductBean>> getProducts(@RequestParam(required = false) String name,
@@ -63,27 +63,40 @@ public class ProductServiceController {
 		return response;
 	}
 
-	@PostMapping("save/products")
-	public ResponseEntity<List<ProductBean>> saveProducts(@RequestPart(required = false) String beans,
-			@RequestPart(required = false, name = "file") MultipartFile file) {
+	@PostMapping(value = "save/products")
+	public ResponseEntity<List<ProductBean>> saveProducts(@RequestPart(required = false) MultipartFile file) throws CustomException {
 		ResponseEntity<List<ProductBean>> response = null;
 		List<ProductBean> beanList = new ArrayList<ProductBean>();
 		if (!CommonUtils.isNull(file) && !file.isEmpty()) {
-			String[] fileFrags = file.getOriginalFilename().split("\\.");
-			String extension = fileFrags[fileFrags.length - 1];
-			if (extension.toLowerCase().trim().equals("csv"))
-				dataIngestor = new DataIngestionCSV();
-			else if (extension.toLowerCase().trim().equals("json"))
-				dataIngestor = new DataIngestionJson();
+			dataIngestor = processor.getIngestor(file.getOriginalFilename());
 			try {
 				beanList = dataIngestor.loadDataToDB(file.getBytes());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else {
-			dataIngestor = new DataIngestionJson();
-			beanList = dataIngestor.loadDataToDB(beans.getBytes());
 		}
+		response = new ResponseEntity<List<ProductBean>>(productService.saveProducts(beanList), HttpStatus.OK);
+		return response;
+	}
+
+	@PostMapping(value = "save/products", params = { "json" })
+	public ResponseEntity<List<ProductBean>> saveProducts(@RequestParam(value = "json") String json) throws CustomException {
+		ResponseEntity<List<ProductBean>> response = null;
+		List<ProductBean> beanList = new ArrayList<ProductBean>();
+		dataIngestor = processor.getIngestor(null);
+		beanList = dataIngestor.loadDataToDB(json.getBytes());
+		response = new ResponseEntity<List<ProductBean>>(productService.saveProducts(beanList), HttpStatus.OK);
+		return response;
+	}
+
+	@PostMapping(value = "save/products", params = { "jdbcString", "schema", "table" })
+	public ResponseEntity<List<ProductBean>> saveProducts(@RequestParam(value = "jdbcString") String jdbc,
+			@RequestParam(value = "schema") String schema, @RequestParam(value = "table") String table) throws CustomException {
+		ResponseEntity<List<ProductBean>> response = null;
+		List<ProductBean> beanList = new ArrayList<ProductBean>();
+		dataIngestor = processor.getIngestor(jdbc);
+		String driver = CommonUtils.getDriver(jdbc, schema, table);
+		beanList = dataIngestor.loadDataToDB(driver.getBytes());
 		response = new ResponseEntity<List<ProductBean>>(productService.saveProducts(beanList), HttpStatus.OK);
 		return response;
 	}
