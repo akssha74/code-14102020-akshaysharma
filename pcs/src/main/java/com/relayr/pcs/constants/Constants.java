@@ -1,6 +1,10 @@
 package com.relayr.pcs.constants;
 
-public class Constants {
+/**
+ * @author asharma2
+ *
+ */
+public class Constants{
 	
 	public static String CSV_FORMAT = "csv";
 	public static String JSON_FORMAT = "json";

@@ -3,8 +3,11 @@ package com.relayr.pcs.exception;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * @author asharma2
+ *
+ */
 @Getter
-@Setter
 public class CustomException extends Exception{
 	
 	/**
@@ -28,11 +31,6 @@ public class CustomException extends Exception{
 		this.errorCode = errorCode;
 	}
 	
-	public CustomException(String errorCode, Throwable throwable) {
-		super();
-		this.errorCode = errorCode;
-		this.throwable = throwable;
-	}
 	
 	public CustomException(String errorCode,String errorMessage) {
 		super();
@@ -40,14 +38,7 @@ public class CustomException extends Exception{
 		this.errorMessage = errorMessage;
 	}
 	
-	public CustomException(String errorCode, String errorMessage, Throwable e)
-	{
-		super();
-		this.errorCode = errorCode;
-		this.errorMessage = errorMessage;
-		this.throwable = e;
-	}
-	
+
 	private String errorCode;
 	
 	private String errorMessage;

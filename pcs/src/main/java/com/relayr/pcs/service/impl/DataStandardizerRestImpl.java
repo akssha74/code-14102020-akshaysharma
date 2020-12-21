@@ -21,6 +21,10 @@ import com.relayr.pcs.constants.ErrorMessages;
 import com.relayr.pcs.exception.CustomException;
 import com.relayr.pcs.service.DataStandardizer;
 
+/**
+ * @author asharma2
+ *
+ */
 @Service
 @Qualifier("HttpService")
 public class DataStandardizerRestImpl implements DataStandardizer {
@@ -28,6 +32,9 @@ public class DataStandardizerRestImpl implements DataStandardizer {
 	@Autowired
 	Environment env;
 
+	/**
+	 *@returns beanList by pulling data from Rest endpoint
+	 */
 	@Override
 	public List<ProductBean> loadDataToDB(byte[] bytes) throws CustomException {
 		String connection = new String(bytes);

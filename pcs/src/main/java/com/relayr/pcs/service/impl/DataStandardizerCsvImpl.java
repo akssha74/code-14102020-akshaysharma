@@ -11,13 +11,22 @@ import com.relayr.pcs.constants.Constants;
 import com.relayr.pcs.constants.ErrorMessages;
 import com.relayr.pcs.exception.CustomException;
 import com.relayr.pcs.service.DataStandardizer;
+import com.relayr.pcs.util.CommonUtils;
 
+/**
+ * @author asharma2
+ *
+ */
 @Service
 @Qualifier("CsvService")
 public class DataStandardizerCsvImpl implements DataStandardizer {
 
+	/**
+	 * Returns bean list from Csv File Data
+	 */
 	@Override
 	public List<ProductBean> loadDataToDB(byte[] bytes) throws CustomException {
+
 		String completeData = new String(bytes);
 		String[] rows = completeData.split("\n");
 		List<ProductBean> beanList = new ArrayList<ProductBean>();
@@ -26,14 +35,14 @@ public class DataStandardizerCsvImpl implements DataStandardizer {
 		for (int index = 1; index < rows.length; index++) {
 			String[] cols = rows[index].split(",");
 			ProductBean bean = new ProductBean();
-			bean.setBrandName(cols[0]);
-			bean.setCategory(cols[1]);
-			bean.setModelNumber(cols[2]);
-			bean.setName(cols[3]);
-			bean.setPrice(Double.parseDouble(cols[4]));
-			bean.setHighPrice(Double.parseDouble(cols[4]));
-			bean.setLowPrice(Double.parseDouble(cols[4]));
-			bean.setWebsite(cols[5]);
+			bean.setBrandName(CommonUtils.cleanString(cols[0]));
+			bean.setCategory(CommonUtils.cleanString(cols[1]));
+			bean.setModelNumber(CommonUtils.cleanString(cols[2]));
+			bean.setName(CommonUtils.cleanString(cols[3]));
+			bean.setPrice(Double.parseDouble(CommonUtils.cleanString(cols[4])));
+			bean.setHighPrice(Double.parseDouble(CommonUtils.cleanString(cols[4])));
+			bean.setLowPrice(Double.parseDouble(CommonUtils.cleanString(cols[4])));
+			bean.setWebsite(CommonUtils.cleanString(cols[5]));
 			beanList.add(bean);
 		}
 		return beanList;
@@ -42,9 +51,14 @@ public class DataStandardizerCsvImpl implements DataStandardizer {
 
 	private void validateCsv(String[] colNames) throws CustomException {
 		try {
-			if (colNames[0].equals(Constants.BRAND_NAME) && colNames[1].equals(Constants.CATEGORY)
-					&& colNames[2].equals(Constants.MODEL_NUMBER) && colNames[3].equals(Constants.NAME)
-					&& colNames[4].equals(Constants.PRICE) && colNames[5].equals(Constants.WEBSITE)) {
+
+			if (CommonUtils.cleanString(colNames[0]).equals(Constants.BRAND_NAME)
+					&& CommonUtils.cleanString(colNames[1]).equals(Constants.CATEGORY)
+					&& CommonUtils.cleanString(colNames[2]).equals(Constants.MODEL_NUMBER)
+					&& CommonUtils.cleanString(colNames[3]).equals(Constants.NAME)
+					&& CommonUtils.cleanString(colNames[4]).equals(Constants.PRICE)
+					&& CommonUtils.cleanString(colNames[5]).equals(Constants.WEBSITE)) {
+			} else {
 				throw new CustomException(ErrorMessages.APP04.code(), ErrorMessages.APP04.message());
 			}
 		} catch (Exception e) {

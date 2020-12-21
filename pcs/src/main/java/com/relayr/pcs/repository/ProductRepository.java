@@ -5,6 +5,12 @@ import org.springframework.stereotype.Repository;
 
 import com.relayr.pcs.entity.ProductEntity;
 
+/**
+ * @author asharma2
+ *
+ */
 @Repository
 public interface ProductRepository extends JpaRepository<ProductEntity, String>, ProductRepositoryCustom {
+	
+	ProductEntity findByUniqueIdentifier(String uniqueIdentifier);
 }

@@ -12,17 +12,30 @@ import com.relayr.pcs.repository.ProductRepository;
 import com.relayr.pcs.service.ProductComparisonService;
 import com.relayr.pcs.util.CommonUtils;
 
+/**
+ * @author asharma2
+ *
+ */
 @Service
 public class ProductComparisonServiceImpl implements ProductComparisonService {
 
 	@Autowired
 	ProductRepository productRepository;
 
+	/**
+	 *Fetch the list of products from database
+	 *@param productBean
+	 */
 	@Override
 	public List<ProductBean> getProducts(ProductBean productBean) {
 		return convertProductEntityToProductBean(productRepository.getProducts(productBean));
 	}
 
+	/**
+	 * Converts list of database entity objects to bean objects
+	 * @param productList
+	 * @return beanList
+	 */
 	public List<ProductBean> convertProductEntityToProductBean(List<ProductEntity> productList) {
 		List<ProductBean> beanList = new ArrayList<ProductBean>();
 		for (ProductEntity entity : productList) {
@@ -42,12 +55,20 @@ public class ProductComparisonServiceImpl implements ProductComparisonService {
 		return beanList;
 	}
 
+	/**
+	 *Save list of products into database
+	 */
 	@Override
 	public List<ProductBean> saveProducts(List<ProductBean> productBeans) {
 		List<ProductEntity> pojoList = convertProductBeanToProductEntity(productBeans);
 		return convertProductEntityToProductBean(productRepository.saveAll(pojoList));
 	}
 
+	/**
+	 * Converts request bean object into database entity object
+	 * @param productBeans
+	 * @return pojoList
+	 */
 	private List<ProductEntity> convertProductBeanToProductEntity(List<ProductBean> productBeans) {
 		List<ProductEntity> pojoList = new ArrayList<ProductEntity>();
 		for (ProductBean productBean : productBeans) {

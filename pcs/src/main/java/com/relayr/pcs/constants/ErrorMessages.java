@@ -1,5 +1,9 @@
 package com.relayr.pcs.constants;
 
+/**
+ * @author asharma2
+ *
+ */
 public enum ErrorMessages {
 	
 	APP01("APP01","This Database is not yet supported"),
@@ -13,6 +17,10 @@ public enum ErrorMessages {
 	
 	String errorMessage;
 
+	/**
+	 * @param errorCode
+	 * @param errorMessage
+	 */
 	private ErrorMessages(String errorCode, String errorMessage) {
 		this.errorCode = errorCode;
 		this.errorMessage = errorMessage;

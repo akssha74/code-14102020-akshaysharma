@@ -6,10 +6,18 @@ import java.util.UUID;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.IdentifierGenerator;
 
+/**
+ * @author asharma2
+ *
+ */
 public class UniqueIdGenerator implements IdentifierGenerator {
 
+	/**
+	 *Returns unique identifier
+	 */
 	@Override
 	public Serializable generate(SharedSessionContractImplementor session, Object obj) {
-		return UUID.randomUUID().toString();
+        Serializable id = session.getEntityPersister(null, obj).getClassMetadata().getIdentifier(obj, session);
+        return id != null ? id : UUID.randomUUID().toString();
 	}
 }

@@ -14,10 +14,17 @@ import com.relayr.pcs.constants.ErrorMessages;
 import com.relayr.pcs.exception.CustomException;
 import com.relayr.pcs.service.DataStandardizer;
 
+/**
+ * @author asharma2
+ *
+ */
 @Service
 @Qualifier("JsonService")
 public class DataStandardizerJsonImpl implements DataStandardizer{
 
+	/**
+	 *Returns bean list from Json File data
+	 */
 	@Override
 	public List<ProductBean> loadDataToDB(byte[] bytes) throws CustomException {
 		String completeData = new String(bytes);

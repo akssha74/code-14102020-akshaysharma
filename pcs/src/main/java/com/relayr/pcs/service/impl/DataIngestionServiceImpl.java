@@ -9,6 +9,10 @@ import com.relayr.pcs.service.DataIngestionService;
 import com.relayr.pcs.service.DataStandardizer;
 import com.relayr.pcs.util.CommonUtils;
 
+/**
+ * @author asharma2
+ *
+ */
 @Service
 public class DataIngestionServiceImpl implements DataIngestionService{
 
@@ -28,6 +32,9 @@ public class DataIngestionServiceImpl implements DataIngestionService{
 	@Qualifier("HttpService")
 	DataStandardizer dataIngestionHttp;
 
+	/**
+	 * Returns Ingestor reference based on input type (either Csv File/Json File/JDBC endpoint/Rest endpoint)
+	 */
 	public DataStandardizer getIngestor(String fileName) {
 		String[] fileFrags = null;
 		String extension = null;
@@ -54,9 +61,6 @@ public class DataIngestionServiceImpl implements DataIngestionService{
 			else if (!CommonUtils.isNull(extension) && extension.toLowerCase().trim().equals(Constants.JSON_FORMAT))
 				return dataIngestionJson;
 			}
-		
-		else
-			return null;
 		return null;
 	}
 }

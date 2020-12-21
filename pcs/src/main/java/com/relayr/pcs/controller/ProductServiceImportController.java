@@ -27,10 +27,14 @@ import com.relayr.pcs.util.CommonUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 
+/**
+ * @author asharma2
+ *
+ */
 @RestController
 @RequestMapping("/api/v1/pcs/")
 @Api(value = "Online Store")
-public class ProductServiceController {
+public class ProductServiceImportController {
 
 	@Autowired
 	ProductComparisonService productService;
@@ -40,32 +44,12 @@ public class ProductServiceController {
 
 	DataStandardizer dataIngestor;
 
-	@GetMapping("find/products")
-	public ResponseEntity<List<ProductBean>> getProducts(@RequestParam(required = false) String name,
-			@RequestParam(required = false) String category,
-			@RequestParam(required = false, name = "brand") String brandName,
-			@RequestParam(required = false) String website,
-			@RequestParam(required = false, name = "low") Double lowPrice,
-			@RequestParam(required = false, name = "high") Double highPrice,
-			@RequestParam(required = false, name = "modelNumber") String modelNumber) {
-
-		ProductBean requestObject = new ProductBean();
-		requestObject.setBrandName(brandName);
-		requestObject.setCategory(category);
-		if (CommonUtils.isNull(highPrice))
-			highPrice = 0.0;
-		if (CommonUtils.isNull(lowPrice))
-			lowPrice = 0.0;
-		requestObject.setHighPrice(highPrice);
-		requestObject.setLowPrice(lowPrice);
-		requestObject.setModelNumber(modelNumber);
-		requestObject.setName(name);
-		requestObject.setWebsite(website);
-		ResponseEntity<List<ProductBean>> response = new ResponseEntity<List<ProductBean>>(
-				productService.getProducts(requestObject), HttpStatus.OK);
-		return response;
-	}
-
+	/**
+	 * Api for saving file to Database
+	 * @param file
+	 * @return
+	 * @throws CustomException
+	 */
 	@PostMapping(value = "save/products")
 	public ResponseEntity<List<ProductBean>> saveProducts(@RequestPart(required = true) MultipartFile file)
 			throws CustomException {
@@ -79,6 +63,7 @@ public class ProductServiceController {
 				beanList = dataIngestor.loadDataToDB(file.getBytes());
 			} catch (IOException e) {
 				e.printStackTrace();
+				throw new CustomException(ErrorMessages.APP03.code(), ErrorMessages.APP03.message());
 			}
 		} else {
 			throw new CustomException(ErrorMessages.APP03.code(), ErrorMessages.APP03.message());
@@ -87,6 +72,12 @@ public class ProductServiceController {
 		return response;
 	}
 
+	/**
+	 * Api for saving Json Input to Database
+	 * @param json
+	 * @return
+	 * @throws CustomException
+	 */
 	@PostMapping(value = "save/products", params = { "json" })
 	public ResponseEntity<List<ProductBean>> saveProducts(@RequestParam(value = "json") String json)
 			throws CustomException {
@@ -100,6 +91,14 @@ public class ProductServiceController {
 		return response;
 	}
 
+	/**
+	 * Api for saving data from Source database to our service database
+	 * @param jdbc
+	 * @param schema
+	 * @param table
+	 * @return
+	 * @throws CustomException
+	 */
 	@PostMapping(value = "save/products", params = { "jdbcString", "schema", "table" })
 	public ResponseEntity<List<ProductBean>> saveProducts(@RequestParam(value = "jdbcString") String jdbc,
 			@RequestParam(value = "schema") String schema, @RequestParam(value = "table") String table)
@@ -115,6 +114,13 @@ public class ProductServiceController {
 		return response;
 	}
 
+	/**
+	 * Api for saving data from given endpoint to our DB
+	 * @param endpoint
+	 * @param endpoint2 (ignore)
+	 * @return
+	 * @throws CustomException
+	 */
 	@PostMapping(value = "save/products", params = { "endpoint" })
 	public ResponseEntity<List<ProductBean>> saveProducts(@RequestParam(value = "endpoint") String endpoint,
 			@ApiParam(hidden = true) @RequestParam(value = "endpoint2", required = false) String endpoint2)

@@ -4,9 +4,16 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class DriverMap {
+/**
+ * @author asharma2
+ *
+ */
+public class DriverMap{
 
-	 public static Map<String, String> driverMap = Stream.of(new String[][] {
+	 /**
+	 * contains mapping between data source and driver required
+	 */
+	public static Map<String, String> driverMap = Stream.of(new String[][] {
 		  { "postgresql", "org.postgresql.Driver" }, 
 		}).collect(Collectors.toMap(data -> data[0], data -> data[1]));
 	

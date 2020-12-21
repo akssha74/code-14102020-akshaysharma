@@ -4,20 +4,26 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * @author asharma2
+ *
+ */
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
-@Document
+@EqualsAndHashCode
 @Table(name = "products")
 public class ProductEntity {
 	
@@ -37,5 +43,5 @@ public class ProductEntity {
 	private double price;
 	
 	private String website;
-	
+		
 }

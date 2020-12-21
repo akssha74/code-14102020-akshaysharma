@@ -19,6 +19,10 @@ import com.relayr.pcs.constants.ErrorMessages;
 import com.relayr.pcs.exception.CustomException;
 import com.relayr.pcs.service.DataStandardizer;
 
+/**
+ * @author asharma2
+ *
+ */
 @Service
 @Qualifier("DbService")
 public class DataStandardizerDbImpl implements DataStandardizer {
@@ -26,6 +30,9 @@ public class DataStandardizerDbImpl implements DataStandardizer {
 	@Autowired
 	Environment env;
 
+	/**
+	 * returns bean list by pulling data from JDBC endpoint
+	 */
 	@Override
 	public List<ProductBean> loadDataToDB(byte[] bytes) throws CustomException {
 		String[] connection = new String(bytes).split("\\|");

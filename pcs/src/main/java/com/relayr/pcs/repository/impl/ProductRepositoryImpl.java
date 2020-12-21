@@ -15,6 +15,10 @@ import com.relayr.pcs.entity.ProductEntity;
 import com.relayr.pcs.repository.ProductRepositoryCustom;
 import com.relayr.pcs.util.CommonUtils;
 
+/**
+ * @author asharma2
+ *
+ */
 public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
 		
@@ -22,6 +26,11 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 	private EntityManager entityManager;
 
 	
+	/**
+	 *Fetches products from Database based on the request recieved
+	 *@param productBean
+	 *@return List of dataabase entity objects
+	 */
 	@Override
 	public List<ProductEntity> getProducts(ProductBean productBean) {
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
