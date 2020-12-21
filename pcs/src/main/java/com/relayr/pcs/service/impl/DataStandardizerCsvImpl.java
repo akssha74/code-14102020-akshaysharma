@@ -3,6 +3,8 @@ package com.relayr.pcs.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,8 @@ import com.relayr.pcs.util.CommonUtils;
 @Service
 @Qualifier("CsvService")
 public class DataStandardizerCsvImpl implements DataStandardizer {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(DataStandardizerCsvImpl.class);
 
 	/**
 	 * Returns bean list from Csv File Data
@@ -59,9 +63,11 @@ public class DataStandardizerCsvImpl implements DataStandardizer {
 					&& CommonUtils.cleanString(colNames[4]).equals(Constants.PRICE)
 					&& CommonUtils.cleanString(colNames[5]).equals(Constants.WEBSITE)) {
 			} else {
+				LOGGER.error(ErrorMessages.APP04.message());
 				throw new CustomException(ErrorMessages.APP04.code(), ErrorMessages.APP04.message());
 			}
 		} catch (Exception e) {
+			LOGGER.error(ErrorMessages.APP04.message());
 			e.printStackTrace();
 			throw new CustomException(ErrorMessages.APP04.code(), ErrorMessages.APP04.message());
 		}

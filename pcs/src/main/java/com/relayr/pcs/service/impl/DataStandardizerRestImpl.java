@@ -9,6 +9,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.env.Environment;
@@ -29,6 +31,8 @@ import com.relayr.pcs.service.DataStandardizer;
 @Qualifier("HttpService")
 public class DataStandardizerRestImpl implements DataStandardizer {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(DataStandardizerRestImpl.class);
+
 	@Autowired
 	Environment env;
 
@@ -39,6 +43,7 @@ public class DataStandardizerRestImpl implements DataStandardizer {
 	public List<ProductBean> loadDataToDB(byte[] bytes) throws CustomException {
 		String connection = new String(bytes);
 		CloseableHttpClient httpClient = HttpClients.createDefault();
+		LOGGER.info("Connection Endpoint : "+connection);
 		HttpGet request = new HttpGet(connection);
 		ObjectMapper mapper = new ObjectMapper();
 		try {
@@ -50,6 +55,7 @@ public class DataStandardizerRestImpl implements DataStandardizer {
 				return beanList;
 			}
 		} catch (IOException e) {
+			LOGGER.error(ErrorMessages.APP05.message());
 			e.printStackTrace();
 			throw new CustomException(ErrorMessages.APP05.code(), ErrorMessages.APP05.message());
 		}

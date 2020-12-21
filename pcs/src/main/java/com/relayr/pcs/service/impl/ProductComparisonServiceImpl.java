@@ -3,6 +3,8 @@ package com.relayr.pcs.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,8 @@ import com.relayr.pcs.util.CommonUtils;
 @Service
 public class ProductComparisonServiceImpl implements ProductComparisonService {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(ProductComparisonServiceImpl.class);
+	
 	@Autowired
 	ProductRepository productRepository;
 
@@ -28,6 +32,7 @@ public class ProductComparisonServiceImpl implements ProductComparisonService {
 	 */
 	@Override
 	public List<ProductBean> getProducts(ProductBean productBean) {
+		LOGGER.info("Fetching list of products from Database");
 		return convertProductEntityToProductBean(productRepository.getProducts(productBean));
 	}
 
@@ -60,6 +65,7 @@ public class ProductComparisonServiceImpl implements ProductComparisonService {
 	 */
 	@Override
 	public List<ProductBean> saveProducts(List<ProductBean> productBeans) {
+		LOGGER.info("Saving list of products to Database");
 		List<ProductEntity> pojoList = convertProductBeanToProductEntity(productBeans);
 		return convertProductEntityToProductBean(productRepository.saveAll(pojoList));
 	}

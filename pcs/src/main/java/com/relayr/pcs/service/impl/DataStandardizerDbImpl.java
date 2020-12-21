@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.env.Environment;
@@ -30,6 +32,8 @@ public class DataStandardizerDbImpl implements DataStandardizer {
 	@Autowired
 	Environment env;
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(DataStandardizerDbImpl.class);
+
 	/**
 	 * returns bean list by pulling data from JDBC endpoint
 	 */
@@ -40,13 +44,16 @@ public class DataStandardizerDbImpl implements DataStandardizer {
 		String schema = connection[1];
 		String table = connection[2];
 		String driver = connection[3];
+		LOGGER.info("Driver class is :" + driver);
 		List<ProductBean> beanList = new ArrayList<ProductBean>();
 		try {
 			Class.forName(driver);
 			Connection con = DriverManager.getConnection(jdbcString);
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt
-					.executeQuery(Constants.SELECT + env.getProperty(Constants.QUERY_COLS) + Constants.FROM + schema + "." + table);
+			String query = Constants.SELECT + env.getProperty(Constants.QUERY_COLS) + Constants.FROM + schema + "."
+					+ table;
+			LOGGER.info("Query :" + query);
+			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
 				ProductBean bean = new ProductBean();
 				bean.setBrandName(rs.getString(Constants.BRAND_NAME));
@@ -61,9 +68,11 @@ public class DataStandardizerDbImpl implements DataStandardizer {
 			}
 			return beanList;
 		} catch (ClassNotFoundException e) {
+			LOGGER.error(ErrorMessages.APP01.message());
 			e.printStackTrace();
 			throw new CustomException(ErrorMessages.APP01.code(), ErrorMessages.APP01.message());
 		} catch (SQLException e) {
+			LOGGER.error(ErrorMessages.APP02.message());
 			e.printStackTrace();
 			throw new CustomException(ErrorMessages.APP02.code(), ErrorMessages.APP02.message());
 		}

@@ -2,6 +2,8 @@ package com.relayr.pcs.service.impl;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -20,24 +22,29 @@ import com.relayr.pcs.service.DataStandardizer;
  */
 @Service
 @Qualifier("JsonService")
-public class DataStandardizerJsonImpl implements DataStandardizer{
+public class DataStandardizerJsonImpl implements DataStandardizer {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(DataStandardizerJsonImpl.class);
 
 	/**
-	 *Returns bean list from Json File data
+	 * Returns bean list from Json File data
 	 */
 	@Override
 	public List<ProductBean> loadDataToDB(byte[] bytes) throws CustomException {
 		String completeData = new String(bytes);
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			List<ProductBean> beanList = mapper.readValue(completeData, new TypeReference<List<ProductBean>>(){});
+			List<ProductBean> beanList = mapper.readValue(completeData, new TypeReference<List<ProductBean>>() {
+			});
 			return beanList;
 		} catch (JsonMappingException e) {
+			LOGGER.error(ErrorMessages.APP06.message());
 			e.printStackTrace();
-			throw new CustomException(ErrorMessages.APP06.code(),ErrorMessages.APP06.message());
+			throw new CustomException(ErrorMessages.APP06.code(), ErrorMessages.APP06.message());
 		} catch (JsonProcessingException e) {
+			LOGGER.error(ErrorMessages.APP06.message());
 			e.printStackTrace();
-			throw new CustomException(ErrorMessages.APP06.code(),ErrorMessages.APP06.message());
+			throw new CustomException(ErrorMessages.APP06.code(), ErrorMessages.APP06.message());
 		}
 	}
 

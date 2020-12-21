@@ -2,6 +2,8 @@ package com.relayr.pcs.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +36,9 @@ public class ProductServiceFetchController {
 	DataIngestionService processor;
 
 	DataStandardizer dataIngestor;
+	
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductServiceFetchController.class);
+
 
 	/**
 	 * Api for fitering products based on below prameters
@@ -68,6 +73,7 @@ public class ProductServiceFetchController {
 		requestObject.setModelNumber(modelNumber);
 		requestObject.setName(name);
 		requestObject.setWebsite(website);
+		LOGGER.info("Fetch Request for Products : "+requestObject.toString());
 		ResponseEntity<List<ProductBean>> response = new ResponseEntity<List<ProductBean>>(
 				productService.getProducts(requestObject), HttpStatus.OK);
 		return response;
