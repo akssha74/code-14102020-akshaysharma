@@ -7,7 +7,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,6 +45,7 @@ public class ProductServiceImportController {
 
 	/**
 	 * Api for saving file to Database
+	 * 
 	 * @param file
 	 * @return
 	 * @throws CustomException
@@ -74,6 +74,7 @@ public class ProductServiceImportController {
 
 	/**
 	 * Api for saving Json Input to Database
+	 * 
 	 * @param json
 	 * @return
 	 * @throws CustomException
@@ -93,6 +94,7 @@ public class ProductServiceImportController {
 
 	/**
 	 * Api for saving data from Source database to our service database
+	 * 
 	 * @param jdbc
 	 * @param schema
 	 * @param table
@@ -116,6 +118,7 @@ public class ProductServiceImportController {
 
 	/**
 	 * Api for saving data from given endpoint to our DB
+	 * 
 	 * @param endpoint
 	 * @param endpoint2 (ignore)
 	 * @return
@@ -129,7 +132,7 @@ public class ProductServiceImportController {
 		List<ProductBean> beanList = new ArrayList<ProductBean>();
 		dataIngestor = processor.getIngestor(endpoint);
 		if (CommonUtils.isNull(dataIngestor))
-			throw new CustomException(ErrorMessages.APP01.code(), ErrorMessages.APP01.message());
+			throw new CustomException(ErrorMessages.APP05.code(), ErrorMessages.APP05.message());
 		beanList = dataIngestor.loadDataToDB(endpoint.getBytes());
 		response = new ResponseEntity<List<ProductBean>>(productService.saveProducts(beanList), HttpStatus.OK);
 		return response;

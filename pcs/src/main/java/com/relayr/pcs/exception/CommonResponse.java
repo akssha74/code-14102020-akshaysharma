@@ -1,11 +1,10 @@
 package com.relayr.pcs.exception;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import java.io.Serializable;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 /**
  * @author asharma2
@@ -14,7 +13,12 @@ import lombok.ToString;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CommonResponse {
+public class CommonResponse implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public String message;
 

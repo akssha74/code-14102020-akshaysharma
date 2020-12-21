@@ -10,6 +10,7 @@ public class Constants{
 	public static String JSON_FORMAT = "json";
 	public static String JDBC = "jdbc";
 	public static String HTTP = "http";
+	public static String HTTPS = "https";
 	public static String SELECT = "SELECT ";
 	public static String BRAND_NAME = "brand_name";
 	public static String CATEGORY = "category";

@@ -1,15 +1,14 @@
 package com.relayr.pcs.exception;
 
 import lombok.Getter;
-import lombok.Setter;
 
 /**
  * @author asharma2
  *
  */
 @Getter
-public class CustomException extends Exception{
-	
+public class CustomException extends Exception {
+
 	/**
 	 * Serialization Id
 	 */
@@ -20,30 +19,27 @@ public class CustomException extends Exception{
 	 */
 	public CustomException() {
 	}
-	
+
 	public CustomException(Throwable e) {
 		super();
-		this.throwable = e;	
+		this.throwable = e;
 	}
-	
+
 	public CustomException(String errorCode) {
 		super();
 		this.errorCode = errorCode;
 	}
-	
-	
-	public CustomException(String errorCode,String errorMessage) {
+
+	public CustomException(String errorCode, String errorMessage) {
 		super();
 		this.errorCode = errorCode;
 		this.errorMessage = errorMessage;
 	}
-	
 
 	private String errorCode;
-	
+
 	private String errorMessage;
-	
+
 	private Throwable throwable;
-	
-	
+
 }

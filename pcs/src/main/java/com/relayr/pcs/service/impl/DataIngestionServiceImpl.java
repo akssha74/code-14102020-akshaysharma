@@ -47,7 +47,8 @@ public class DataIngestionServiceImpl implements DataIngestionService{
 		else if(!CommonUtils.isNull(fileName) && fileName.toLowerCase().trim().contains(Constants.HTTP)) {
 			fileFrags = fileName.split(":");
 			extension = fileFrags[0];
-			if (!CommonUtils.isNull(extension) && extension.toLowerCase().trim().equals(Constants.HTTP))
+			if (!CommonUtils.isNull(extension) && (extension.toLowerCase().trim().equals(Constants.HTTP)
+					|| extension.toLowerCase().trim().equals(Constants.HTTPS)))
 				return dataIngestionHttp;			
 		}
 		else if (!CommonUtils.isNull(fileName) && fileName.equals(Constants.JSON_FORMAT)) {
