@@ -1,4 +1,4 @@
-package com.relayr.pcs;
+package com.relayr.pcs.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

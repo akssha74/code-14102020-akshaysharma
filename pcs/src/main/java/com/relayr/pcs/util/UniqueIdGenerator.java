@@ -18,6 +18,6 @@ public class UniqueIdGenerator implements IdentifierGenerator {
 	@Override
 	public Serializable generate(SharedSessionContractImplementor session, Object obj) {
         Serializable id = session.getEntityPersister(null, obj).getClassMetadata().getIdentifier(obj, session);
-        return id != null ? id : UUID.randomUUID().toString();
+        return !CommonUtils.isNull(id) ? id : UUID.randomUUID().toString();
 	}
 }

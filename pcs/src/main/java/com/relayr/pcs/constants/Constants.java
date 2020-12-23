@@ -22,7 +22,8 @@ public class Constants{
 	public static String FROM = " FROM ";
 	public static String ENT_BRAND_NAME = "brandName";
 	public static String ENT_MODEL_NUMBER = "modelNumber";
-
+	public static String VERIFY_INSTANCE = "verifyInstance";
+	public static String ROOT_PACKAGE = "com.relayr.pcs";
 	
 	
 }

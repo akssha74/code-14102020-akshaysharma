@@ -7,7 +7,7 @@ package com.relayr.pcs.service;
 public interface DataIngestionService {
 	/**
 	 * @param fileName
-	 * @return
+	 * @return DataStandardizer
 	 */
 	public DataStandardizer getIngestor(String fileName);
 }

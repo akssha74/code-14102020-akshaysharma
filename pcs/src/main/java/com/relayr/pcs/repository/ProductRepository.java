@@ -12,5 +12,9 @@ import com.relayr.pcs.entity.ProductEntity;
 @Repository
 public interface ProductRepository extends JpaRepository<ProductEntity, String>, ProductRepositoryCustom {
 	
-	ProductEntity findByUniqueIdentifier(String uniqueIdentifier);
+	/**
+	 * @param uniqueIdentifier
+	 * @return ProductEntity
+	 */
+	public ProductEntity findByUniqueIdentifier(String uniqueIdentifier);
 }

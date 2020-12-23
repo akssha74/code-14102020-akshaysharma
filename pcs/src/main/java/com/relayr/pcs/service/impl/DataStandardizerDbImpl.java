@@ -7,32 +7,30 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import com.relayr.pcs.bean.ProductBean;
 import com.relayr.pcs.constants.Constants;
 import com.relayr.pcs.constants.ErrorMessages;
+import com.relayr.pcs.constants.LoggingConstants;
 import com.relayr.pcs.exception.CustomException;
 import com.relayr.pcs.service.DataStandardizer;
+import com.relayr.pcs.util.CommonUtils;
+import com.replayr.pcs.logging.GlobalLogger;
 
 /**
  * @author asharma2
  *
  */
 @Service
-@Qualifier("DbService")
 public class DataStandardizerDbImpl implements DataStandardizer {
 
 	@Autowired
 	Environment env;
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(DataStandardizerDbImpl.class);
 
 	/**
 	 * returns bean list by pulling data from JDBC endpoint
@@ -44,7 +42,7 @@ public class DataStandardizerDbImpl implements DataStandardizer {
 		String schema = connection[1];
 		String table = connection[2];
 		String driver = connection[3];
-		LOGGER.info("Driver class is :" + driver);
+		GlobalLogger.log(Level.INFO, LoggingConstants.DRIVER_CLASS + driver);
 		List<ProductBean> beanList = new ArrayList<ProductBean>();
 		try {
 			Class.forName(driver);
@@ -52,7 +50,7 @@ public class DataStandardizerDbImpl implements DataStandardizer {
 			Statement stmt = con.createStatement();
 			String query = Constants.SELECT + env.getProperty(Constants.QUERY_COLS) + Constants.FROM + schema + "."
 					+ table;
-			LOGGER.info("Query :" + query);
+			GlobalLogger.log(Level.INFO, LoggingConstants.QUERY + query);
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
 				ProductBean bean = new ProductBean();
@@ -68,13 +66,25 @@ public class DataStandardizerDbImpl implements DataStandardizer {
 			}
 			return beanList;
 		} catch (ClassNotFoundException e) {
-			LOGGER.error(ErrorMessages.APP01.message());
-			e.printStackTrace();
+			GlobalLogger.log(Level.SEVERE, ErrorMessages.APP01.message());
 			throw new CustomException(ErrorMessages.APP01.code(), ErrorMessages.APP01.message());
 		} catch (SQLException e) {
-			LOGGER.error(ErrorMessages.APP02.message());
-			e.printStackTrace();
+			GlobalLogger.log(Level.SEVERE, ErrorMessages.APP02.message());
 			throw new CustomException(ErrorMessages.APP02.code(), ErrorMessages.APP02.message());
 		}
+	}
+
+	@Override
+	public boolean verifyInstance(String fileName) throws CustomException {
+		if (!CommonUtils.isNull(fileName) && fileName.toLowerCase().trim().startsWith(Constants.JDBC)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public String getName() {
+		return getClass().getName();
 	}
 }

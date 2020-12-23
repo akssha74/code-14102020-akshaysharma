@@ -17,4 +17,8 @@ public interface DataStandardizer {
 	 * @throws CustomException
 	 */
 	public List<ProductBean> loadDataToDB(byte[] bytes) throws CustomException;
+	
+	public boolean verifyInstance(String fileName) throws CustomException;
+	
+	public String getName();
 }

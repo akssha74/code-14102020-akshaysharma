@@ -13,7 +13,7 @@ public interface ProductRepositoryCustom {
 
 	/**
 	 * @param productBean
-	 * @return
+	 * @return List<ProductEntity>
 	 */
-	List<ProductEntity> getProducts(ProductBean productBean);
+	public List<ProductEntity> getProducts(ProductBean productBean);
 }

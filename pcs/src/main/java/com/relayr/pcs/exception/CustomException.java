@@ -1,6 +1,7 @@
 package com.relayr.pcs.exception;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * @author asharma2
@@ -14,22 +15,6 @@ public class CustomException extends Exception {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * Default constructor
-	 */
-	public CustomException() {
-	}
-
-	public CustomException(Throwable e) {
-		super();
-		this.throwable = e;
-	}
-
-	public CustomException(String errorCode) {
-		super();
-		this.errorCode = errorCode;
-	}
-
 	public CustomException(String errorCode, String errorMessage) {
 		super();
 		this.errorCode = errorCode;
@@ -40,6 +25,5 @@ public class CustomException extends Exception {
 
 	private String errorMessage;
 
-	private Throwable throwable;
 
 }

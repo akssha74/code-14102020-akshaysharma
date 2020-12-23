@@ -1,10 +1,8 @@
 package com.relayr.pcs.service.impl;
 
 import java.util.List;
+import java.util.logging.Level;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -12,19 +10,19 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.relayr.pcs.bean.ProductBean;
+import com.relayr.pcs.constants.Constants;
 import com.relayr.pcs.constants.ErrorMessages;
 import com.relayr.pcs.exception.CustomException;
 import com.relayr.pcs.service.DataStandardizer;
+import com.relayr.pcs.util.CommonUtils;
+import com.replayr.pcs.logging.GlobalLogger;
 
 /**
  * @author asharma2
  *
  */
 @Service
-@Qualifier("JsonService")
 public class DataStandardizerJsonImpl implements DataStandardizer {
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(DataStandardizerJsonImpl.class);
 
 	/**
 	 * Returns bean list from Json File data
@@ -38,14 +36,29 @@ public class DataStandardizerJsonImpl implements DataStandardizer {
 			});
 			return beanList;
 		} catch (JsonMappingException e) {
-			LOGGER.error(ErrorMessages.APP06.message());
-			e.printStackTrace();
+			GlobalLogger.log(Level.SEVERE, ErrorMessages.APP06.message());
 			throw new CustomException(ErrorMessages.APP06.code(), ErrorMessages.APP06.message());
 		} catch (JsonProcessingException e) {
-			LOGGER.error(ErrorMessages.APP06.message());
-			e.printStackTrace();
+			GlobalLogger.log(Level.SEVERE, ErrorMessages.APP06.message());
 			throw new CustomException(ErrorMessages.APP06.code(), ErrorMessages.APP06.message());
 		}
 	}
 
+	@Override
+	public boolean verifyInstance(String fileName) throws CustomException {
+		String[] fileFrags = fileName.split("\\.");
+		String extension = fileFrags[fileFrags.length - 1];
+		if (fileName.equals(Constants.JSON_FORMAT)) {
+			return true;
+		} else if (!CommonUtils.isNull(extension) && extension.toLowerCase().trim().equals(Constants.JSON_FORMAT)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public String getName() {
+		return getClass().getName();
+	}
 }

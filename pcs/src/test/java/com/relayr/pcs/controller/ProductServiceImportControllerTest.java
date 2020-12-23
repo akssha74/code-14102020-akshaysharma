@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -158,6 +159,20 @@ public class ProductServiceImportControllerTest {
 				});
 		assertTrue(cr.getMessage()
 				.equals("Either there is a problem with JDBC String or This Database is not yet supported"));
+	}
+	
+	@Test
+	public void testDownloadingCsvFile() throws Exception {
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/v1/pcs/save/products/download/csv");
+		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+		assertTrue(result.getResponse().getStatus() == 200);
+	}
+	
+	@Test
+	public void testDownloadingJsonFile() throws Exception {
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/v1/pcs/save/products/download/json");
+		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+		assertTrue(result.getResponse().getStatus() == 200);
 	}
 
 	@Test
