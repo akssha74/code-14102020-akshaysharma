@@ -75,6 +75,9 @@ public class ProductServiceImportController {
 				GlobalLogger.log(Level.SEVERE, ErrorMessages.APP07.message());
 				throw new CustomException(ErrorMessages.APP07.code(), ErrorMessages.APP07.message());
 			}
+			else {
+				//DO NOTHING
+			}
 			try {
 				beanList = dataIngestor.loadDataToDB(file.getBytes());
 			} catch (IOException e) {
@@ -109,6 +112,9 @@ public class ProductServiceImportController {
 			GlobalLogger.log(Level.SEVERE, ErrorMessages.APP01.message());
 			throw new CustomException(ErrorMessages.APP01.code(), ErrorMessages.APP01.message());
 		}
+		else {
+			//DO NOTHING
+		}
 		beanList = dataIngestor.loadDataToDB(json.getBytes());
 		response = new ResponseEntity<List<ProductBean>>(productService.saveProducts(beanList), HttpStatus.OK);
 		return response;
@@ -136,6 +142,9 @@ public class ProductServiceImportController {
 			GlobalLogger.log(Level.SEVERE, ErrorMessages.APP01.message());
 			throw new CustomException(ErrorMessages.APP01.code(), ErrorMessages.APP01.message());
 		}
+		else {
+			//DO NOTHING
+		}
 		String driver = CommonUtils.getDriver(jdbc, schema, table);
 		beanList = dataIngestor.loadDataToDB(driver.getBytes());
 		response = new ResponseEntity<List<ProductBean>>(productService.saveProducts(beanList), HttpStatus.OK);
@@ -162,6 +171,9 @@ public class ProductServiceImportController {
 		if (CommonUtils.isNull(dataIngestor)) {
 			GlobalLogger.log(Level.SEVERE, ErrorMessages.APP05.message());
 			throw new CustomException(ErrorMessages.APP05.code(), ErrorMessages.APP05.message());
+		}
+		else {
+			//DO NOTHING
 		}
 		beanList = dataIngestor.loadDataToDB(endpoint.getBytes());
 		response = new ResponseEntity<List<ProductBean>>(productService.saveProducts(beanList), HttpStatus.OK);
