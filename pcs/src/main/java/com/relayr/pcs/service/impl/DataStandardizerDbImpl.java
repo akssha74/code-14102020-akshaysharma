@@ -29,9 +29,6 @@ import com.replayr.pcs.logging.GlobalLogger;
 @Service
 public class DataStandardizerDbImpl implements DataStandardizer {
 
-	@Autowired
-	Environment env;
-
 	/**
 	 * returns bean list by pulling data from JDBC endpoint
 	 */
@@ -48,7 +45,10 @@ public class DataStandardizerDbImpl implements DataStandardizer {
 			Class.forName(driver);
 			Connection con = DriverManager.getConnection(jdbcString);
 			Statement stmt = con.createStatement();
-			String query = Constants.SELECT + env.getProperty(Constants.QUERY_COLS) + Constants.FROM + schema + "."
+			System.err.println(Constants.SELECT);
+			System.err.println(Constants.QUERY_COLS);
+			System.err.println(Constants.FROM);
+			String query = Constants.SELECT + Constants.QUERY_COLS + Constants.FROM + schema + "."
 					+ table;
 			GlobalLogger.log(Level.INFO, LoggingConstants.QUERY + query);
 			ResultSet rs = stmt.executeQuery(query);
@@ -66,9 +66,11 @@ public class DataStandardizerDbImpl implements DataStandardizer {
 			}
 			return beanList;
 		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
 			GlobalLogger.log(Level.SEVERE, ErrorMessages.APP01.message());
 			throw new CustomException(ErrorMessages.APP01.code(), ErrorMessages.APP01.message());
 		} catch (SQLException e) {
+			e.printStackTrace();
 			GlobalLogger.log(Level.SEVERE, ErrorMessages.APP02.message());
 			throw new CustomException(ErrorMessages.APP02.code(), ErrorMessages.APP02.message());
 		}

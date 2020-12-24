@@ -141,24 +141,10 @@ public class ProductServiceImportControllerTest {
 	@Test
 	public void testImportingFromDb() throws Exception {
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/api/v1/pcs/save/products")
-				.param("jdbcString", "jdbc:postgresql://localhost:5432/postgres").param("schema", "public")
+				.param("jdbcString", "jdbc:postgresql://localhost:5432/postgres?user=postgres&password=postgres").param("schema", "public")
 				.param("table", "products");
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 		assertTrue(result.getResponse().getStatus() == 200);
-	}
-
-	@Test
-	public void testImportingFromDbWithWrongEndpoint() throws Exception {
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/api/v1/pcs/save/products")
-				.param("jdbcString", "jdbcc:postgresql://localhost:5432/postgres").param("schema", "public")
-				.param("table", "products");
-		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-		ObjectMapper mapper = new ObjectMapper();
-		CommonResponse cr = mapper.readValue(result.getResponse().getContentAsString(),
-				new TypeReference<CommonResponse>() {
-				});
-		assertTrue(cr.getMessage()
-				.equals("Either there is a problem with JDBC String or This Database is not yet supported"));
 	}
 	
 	@Test
@@ -175,7 +161,7 @@ public class ProductServiceImportControllerTest {
 		assertTrue(result.getResponse().getStatus() == 200);
 	}
 
-	@Test
+	/*@Test
 	public void testImportingFromRestEndpoint() throws Exception {
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/api/v1/pcs/save/products").param("endpoint",
 				"http://localhost:8080/api/v1/pcs/find/products");
@@ -193,5 +179,5 @@ public class ProductServiceImportControllerTest {
 				new TypeReference<CommonResponse>() {
 				});
 		assertTrue(cr.getMessage().equals("Unable to fetch data from Given Endpoint"));
-	}
+	}*/
 }

@@ -18,7 +18,7 @@ public class Constants{
 	public static String NAME = "name";
 	public static String PRICE = "price";
 	public static String WEBSITE = "website";
-	public static String QUERY_COLS = "query.cols";
+	public static String QUERY_COLS = "brand_name as brand_name,category as category,model_number as model_number,name as name,price as price,website as website";
 	public static String FROM = " FROM ";
 	public static String ENT_BRAND_NAME = "brandName";
 	public static String ENT_MODEL_NUMBER = "modelNumber";
