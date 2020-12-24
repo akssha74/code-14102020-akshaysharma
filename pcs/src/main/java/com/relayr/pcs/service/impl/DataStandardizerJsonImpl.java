@@ -13,9 +13,9 @@ import com.relayr.pcs.bean.ProductBean;
 import com.relayr.pcs.constants.Constants;
 import com.relayr.pcs.constants.ErrorMessages;
 import com.relayr.pcs.exception.CustomException;
+import com.relayr.pcs.logging.GlobalLogger;
 import com.relayr.pcs.service.DataStandardizer;
 import com.relayr.pcs.util.CommonUtils;
-import com.replayr.pcs.logging.GlobalLogger;
 
 /**
  * @author asharma2

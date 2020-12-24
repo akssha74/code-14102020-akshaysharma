@@ -18,9 +18,9 @@ import com.relayr.pcs.constants.Constants;
 import com.relayr.pcs.constants.ErrorMessages;
 import com.relayr.pcs.constants.LoggingConstants;
 import com.relayr.pcs.exception.CustomException;
+import com.relayr.pcs.logging.GlobalLogger;
 import com.relayr.pcs.service.DataStandardizer;
 import com.relayr.pcs.util.CommonUtils;
-import com.replayr.pcs.logging.GlobalLogger;
 
 /**
  * @author asharma2
@@ -45,9 +45,6 @@ public class DataStandardizerDbImpl implements DataStandardizer {
 			Class.forName(driver);
 			Connection con = DriverManager.getConnection(jdbcString);
 			Statement stmt = con.createStatement();
-			System.err.println(Constants.SELECT);
-			System.err.println(Constants.QUERY_COLS);
-			System.err.println(Constants.FROM);
 			String query = Constants.SELECT + Constants.QUERY_COLS + Constants.FROM + schema + "."
 					+ table;
 			GlobalLogger.log(Level.INFO, LoggingConstants.QUERY + query);

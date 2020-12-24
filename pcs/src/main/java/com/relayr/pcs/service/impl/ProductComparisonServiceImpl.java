@@ -12,10 +12,10 @@ import org.springframework.stereotype.Service;
 import com.relayr.pcs.bean.ProductBean;
 import com.relayr.pcs.constants.LoggingConstants;
 import com.relayr.pcs.entity.ProductEntity;
+import com.relayr.pcs.logging.GlobalLogger;
 import com.relayr.pcs.repository.ProductRepository;
 import com.relayr.pcs.service.ProductComparisonService;
 import com.relayr.pcs.util.CommonUtils;
-import com.replayr.pcs.logging.GlobalLogger;
 
 /**
  * @author asharma2

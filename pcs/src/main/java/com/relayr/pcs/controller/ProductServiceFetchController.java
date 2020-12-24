@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.relayr.pcs.bean.ProductBean;
 import com.relayr.pcs.constants.LoggingConstants;
+import com.relayr.pcs.logging.GlobalLogger;
 import com.relayr.pcs.service.DataIngestionService;
 import com.relayr.pcs.service.ProductComparisonService;
 import com.relayr.pcs.util.CommonUtils;
-import com.replayr.pcs.logging.GlobalLogger;
 
 import io.swagger.annotations.Api;
 

@@ -1,4 +1,4 @@
-package com.replayr.pcs.logging;
+package com.relayr.pcs.logging;
 
 import java.io.IOException;
 import java.util.Formatter;
@@ -16,11 +16,7 @@ public class GlobalLogger {
 
     private GlobalLogger() throws IOException{
         logger = Logger.getLogger(GlobalLogger.class.getName());
-//        fileHandler = new FileHandler("myLog.txt",true);
         plainText = new SimpleFormatter();
-//        fileHandler.setFormatter(plainText);
-//        logger.addHandler(fileHandler);
-
     }
     private static Logger getLogger(){
         if(logger == null){
